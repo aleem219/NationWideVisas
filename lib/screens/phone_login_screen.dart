@@ -37,19 +37,16 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
     _cardSlide = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
         .animate(CurvedAnimation(
             parent: _animController, curve: Curves.easeOutCubic));
-    _cardFade = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(
-            parent: _animController, curve: const Interval(0, 0.6)));
+    _cardFade = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+        parent: _animController, curve: const Interval(0, 0.6)));
 
     _fieldAnimController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
     _fieldFade = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(
-            parent: _fieldAnimController, curve: Curves.easeIn));
-    _fieldSlide =
-        Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero)
-            .animate(CurvedAnimation(
-                parent: _fieldAnimController, curve: Curves.easeOut));
+        CurvedAnimation(parent: _fieldAnimController, curve: Curves.easeIn));
+    _fieldSlide = Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero)
+        .animate(CurvedAnimation(
+            parent: _fieldAnimController, curve: Curves.easeOut));
 
     Future.delayed(
         const Duration(milliseconds: 100), () => _animController.forward());
@@ -130,8 +127,8 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(                                   
-      onTap: () => FocusScope.of(context).unfocus(),        
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: AppColors.primary,
         body: Column(
@@ -349,15 +346,20 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
                                                 shadowColor: AppColors.accent
                                                     .withOpacity(0.35),
                                               ),
-                                             child: _isLoading
-    ? const SizedBox(
-        width: 22,
-        height: 22,
-        child: CircularProgressIndicator(
-          strokeWidth: 2.5,
-          valueColor: AlwaysStoppedAnimation<Color>(AppColors.darkText),
-        ),
-      )
+                                              child: _isLoading
+                                                  ? const SizedBox(
+                                                      width: 22,
+                                                      height: 22,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        strokeWidth: 2.5,
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                AppColors
+                                                                    .darkText),
+                                                      ),
+                                                    )
                                                   : Text(
                                                       _selectedMode == 'phone'
                                                           ? 'Send Verification Code'
@@ -411,7 +413,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
                                 onTap: () => Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => const DashboardScreen(
+                                    builder: (_) => DashboardScreen(
                                       loginMode: 'social',
                                       loginValue: 'facebook',
                                     ),
@@ -435,7 +437,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
                                 onTap: () => Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => const DashboardScreen(
+                                    builder: (_) => DashboardScreen(
                                       loginMode: 'social',
                                       loginValue: 'instagram',
                                     ),
@@ -450,7 +452,7 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
                                 onTap: () => Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => const DashboardScreen(
+                                    builder: (_) => DashboardScreen(
                                       loginMode: 'social',
                                       loginValue: 'gmail',
                                     ),
@@ -636,11 +638,7 @@ class _SocialButtonState extends State<_SocialButton>
                 ],
               ),
               child: Center(
-                child: FaIcon(
-                  widget.faIcon,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: FaIcon(widget.faIcon, color: Colors.white, size: 24),
               ),
             ),
             const SizedBox(height: 7),

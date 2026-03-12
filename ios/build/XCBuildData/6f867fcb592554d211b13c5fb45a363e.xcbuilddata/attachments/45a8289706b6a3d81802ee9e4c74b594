@@ -1,0 +1,40 @@
+{
+  "" : {
+    "const-values" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGif-master.swiftconstvalues",
+    "dependencies" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGif-master.d",
+    "diagnostics" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGif-master.dia",
+    "emit-module-dependencies" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGif-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGif-master-emit-module.dia",
+    "swift-dependencies" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGif-master.swiftdeps"
+  },
+  "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/Pods/SwiftyGif/SwiftyGif/NSImage+SwiftyGif.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/NSImage+SwiftyGif.o",
+    "llvm-bc" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/NSImage+SwiftyGif.bc",
+    "object" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/NSImage+SwiftyGif.o"
+  },
+  "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/Pods/SwiftyGif/SwiftyGif/NSImageView+SwiftyGif.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/NSImageView+SwiftyGif.o",
+    "llvm-bc" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/NSImageView+SwiftyGif.bc",
+    "object" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/NSImageView+SwiftyGif.o"
+  },
+  "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/Pods/SwiftyGif/SwiftyGif/ObjcAssociatedWeakObject.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/ObjcAssociatedWeakObject.o",
+    "llvm-bc" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/ObjcAssociatedWeakObject.bc",
+    "object" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/ObjcAssociatedWeakObject.o"
+  },
+  "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/Pods/SwiftyGif/SwiftyGif/SwiftyGifManager.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGifManager.o",
+    "llvm-bc" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGifManager.bc",
+    "object" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/SwiftyGifManager.o"
+  },
+  "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/Pods/SwiftyGif/SwiftyGif/UIImage+SwiftyGif.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/UIImage+SwiftyGif.o",
+    "llvm-bc" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/UIImage+SwiftyGif.bc",
+    "object" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/UIImage+SwiftyGif.o"
+  },
+  "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/Pods/SwiftyGif/SwiftyGif/UIImageView+SwiftyGif.swift" : {
+    "index-unit-output-path" : "/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/UIImageView+SwiftyGif.o",
+    "llvm-bc" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/UIImageView+SwiftyGif.bc",
+    "object" : "/Users/abdul21/Documents/Abdul/Self/Flutter Projects/NationWideVisas/ios/build/Pods.build/Release-iphoneos/SwiftyGif.build/Objects-normal/arm64/UIImageView+SwiftyGif.o"
+  }
+}
