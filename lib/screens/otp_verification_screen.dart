@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nationwide_visas/screens/dashboard_screen.dart';
+import 'package:flutter/services.dart';
 import '../theme.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phoneNumber;
-  final String loginMode; // 'phone' or 'email'
+  final String loginMode;
 
   const OtpVerificationScreen({
     super.key,
@@ -78,9 +79,43 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   }
 
   void _verify() async {
-    setState(() => _isLoading = true);
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() => _isLoading = false);
+  final otp = _controllers.map((c) => c.text.trim()).join();
+  if (otp.length < 4 || _controllers.any((c) => c.text.trim().isEmpty)) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Please enter all 4 digits.',
+          style: GoogleFonts.poppins(fontSize: 13),
+        ),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      ),
+    );
+    return;
+  }
+
+  
+  if (!RegExp(r'^\d{4}$').hasMatch(otp)) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'OTP must contain digits only.',
+          style: GoogleFonts.poppins(fontSize: 13),
+        ),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      ),
+    );
+    return;
+  }
+
+  setState(() => _isLoading = true);
+  await Future.delayed(const Duration(seconds: 1));
+  setState(() => _isLoading = false);
 
     if (!mounted) return;
 
@@ -160,8 +195,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  @override
+Widget build(BuildContext context) {
+  return GestureDetector(
+    onTap: () => FocusScope.of(context).unfocus(),
+    child: Scaffold(
       backgroundColor: AppColors.primary,
       body: Column(
         children: [
@@ -259,7 +297,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(4, (index) {
-                            final isFilled = _controllers[index].text.isNotEmpty;
+                            final isFilled =
+                                _controllers[index].text.isNotEmpty;
                             return Container(
                               width: 68,
                               height: 68,
@@ -286,6 +325,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                                 controller: _controllers[index],
                                 focusNode: _focusNodes[index],
                                 keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 textAlign: TextAlign.center,
                                 maxLength: 1,
                                 style: GoogleFonts.poppins(
@@ -310,11 +352,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.accent,
                               foregroundColor: AppColors.darkText,
-                              padding: const EdgeInsets.symmetric(vertical: 18),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 18),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14)),
                               elevation: 4,
-                              shadowColor: AppColors.accent.withOpacity(0.35),
+                              shadowColor:
+                                  AppColors.accent.withOpacity(0.35),
                             ),
                             child: _isLoading
                                 ? const SizedBox(
@@ -322,8 +366,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
                                     height: 22,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2.5,
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          AppColors.darkText),
+                                      valueColor:
+                                          AlwaysStoppedAnimation<Color>(
+                                              AppColors.darkText),
                                     ))
                                 : Text('Continue',
                                     style: GoogleFonts.poppins(
@@ -341,6 +386,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen>
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

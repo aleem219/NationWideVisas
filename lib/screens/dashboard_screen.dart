@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
-import 'file_viewer_screen.dart'; // ← add this
+import 'file_viewer_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
-  final String? loginMode;  // 'phone' or 'email'
-  final String? loginValue; // the actual phone number or email
+  final String? loginMode;
+  final String? loginValue;
 
   const DashboardScreen({
     super.key,
@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   void initState() {
     super.initState();
 
-    // ── Pre-fill phone or email based on how the user logged in ──
+    
     if (widget.loginMode == 'phone' && widget.loginValue != null) {
       _phoneController.text = widget.loginValue!;
     } else if (widget.loginMode == 'email' && widget.loginValue != null) {
@@ -109,8 +109,10 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+Widget build(BuildContext context) {
+  return GestureDetector(
+    onTap: () => FocusScope.of(context).unfocus(),
+    child: Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       body: Column(
         children: [
@@ -411,8 +413,9 @@ class _DashboardScreenState extends State<DashboardScreen>
           ),
         ],
       ),
-    );
-  }
+    ),
+  ); 
+}
 
   Widget _buildTextField({
     required TextEditingController controller,

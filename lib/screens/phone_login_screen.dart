@@ -35,16 +35,21 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
     _animController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 700));
     _cardSlide = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic));
+        .animate(CurvedAnimation(
+            parent: _animController, curve: Curves.easeOutCubic));
     _cardFade = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: _animController, curve: const Interval(0, 0.6)));
+        CurvedAnimation(
+            parent: _animController, curve: const Interval(0, 0.6)));
 
     _fieldAnimController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
     _fieldFade = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: _fieldAnimController, curve: Curves.easeIn));
-    _fieldSlide = Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _fieldAnimController, curve: Curves.easeOut));
+        CurvedAnimation(
+            parent: _fieldAnimController, curve: Curves.easeIn));
+    _fieldSlide =
+        Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero)
+            .animate(CurvedAnimation(
+                parent: _fieldAnimController, curve: Curves.easeOut));
 
     Future.delayed(
         const Duration(milliseconds: 100), () => _animController.forward());
@@ -125,338 +130,372 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Column(
-        children: [
-          SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(28, 24, 28, 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Welcome Back!\nSign In to Continue',
-                      style: GoogleFonts.poppins(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          height: 1.25)),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(36),
-                  topRight: Radius.circular(36),
+    return GestureDetector(                                   
+      onTap: () => FocusScope.of(context).unfocus(),        
+      child: Scaffold(
+        backgroundColor: AppColors.primary,
+        body: Column(
+          children: [
+            SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(28, 24, 28, 40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Welcome Back!\nSign In to Continue',
+                        style: GoogleFonts.poppins(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            height: 1.25)),
+                  ],
                 ),
               ),
-              child: SlideTransition(
-                position: _cardSlide,
-                child: FadeTransition(
-                  opacity: _cardFade,
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(28, 36, 28, 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('How would you like to sign in?',
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: AppColors.greyText,
-                                height: 1.5)),
-                        const SizedBox(height: 24),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: _ToggleButton(
-                                label: 'Login with Phone',
-                                icon: Icons.phone_outlined,
-                                isSelected: _selectedMode == 'phone',
-                                onTap: () => _selectMode('phone'),
+            ),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(36),
+                    topRight: Radius.circular(36),
+                  ),
+                ),
+                child: SlideTransition(
+                  position: _cardSlide,
+                  child: FadeTransition(
+                    opacity: _cardFade,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.fromLTRB(28, 36, 28, 32),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('How would you like to sign in?',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: AppColors.greyText,
+                                  height: 1.5)),
+                          const SizedBox(height: 24),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: _ToggleButton(
+                                  label: 'Login with Phone',
+                                  icon: Icons.phone_outlined,
+                                  isSelected: _selectedMode == 'phone',
+                                  onTap: () => _selectMode('phone'),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: _ToggleButton(
-                                label: 'Login with Email',
-                                icon: Icons.email_outlined,
-                                isSelected: _selectedMode == 'email',
-                                onTap: () => _selectMode('email'),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: _ToggleButton(
+                                  label: 'Login with Email',
+                                  icon: Icons.email_outlined,
+                                  isSelected: _selectedMode == 'email',
+                                  onTap: () => _selectMode('email'),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        AnimatedSize(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut,
-                          child: _selectedMode == null
-                              ? const SizedBox(height: 0)
-                              : SlideTransition(
-                                  position: _fieldSlide,
-                                  child: FadeTransition(
-                                    opacity: _fieldFade,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 28),
-                                        Text(
-                                          _selectedMode == 'phone'
-                                              ? 'Enter your phone number'
-                                              : 'Enter your email address',
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.darkText),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(14),
-                                            border: Border.all(
-                                              color: AppColors.inputBorder,
-                                              width: 1.5,
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black.withOpacity(0.04),
-                                                blurRadius: 10,
-                                                offset: const Offset(0, 4),
-                                              ),
-                                            ],
+                            ],
+                          ),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeInOut,
+                            child: _selectedMode == null
+                                ? const SizedBox(height: 0)
+                                : SlideTransition(
+                                    position: _fieldSlide,
+                                    child: FadeTransition(
+                                      opacity: _fieldFade,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(height: 28),
+                                          Text(
+                                            _selectedMode == 'phone'
+                                                ? 'Enter your phone number'
+                                                : 'Enter your email address',
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppColors.darkText),
                                           ),
-                                          child: Row(
-                                            children: [
-                                              const SizedBox(width: 16),
-                                              Icon(
-                                                _selectedMode == 'phone'
-                                                    ? Icons.phone_outlined
-                                                    : Icons.email_outlined,
-                                                color: AppColors.primary,
-                                                size: 22,
+                                          const SizedBox(height: 10),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(14),
+                                              border: Border.all(
+                                                color: AppColors.inputBorder,
+                                                width: 1.5,
                                               ),
-                                              const SizedBox(width: 10),
-                                              Container(
-                                                  width: 1,
-                                                  height: 24,
-                                                  color: AppColors.inputBorder),
-                                              const SizedBox(width: 12),
-                                              Expanded(
-                                                child: TextField(
-                                                  key: ValueKey(_selectedMode),
-                                                  controller: _inputController,
-                                                  focusNode: _inputFocus,
-                                                  keyboardType: _selectedMode == 'phone'
-                                                      ? TextInputType.number
-                                                      : TextInputType.emailAddress,
-                                                  inputFormatters: _selectedMode == 'phone'
-                                                      ? [
-                                                          FilteringTextInputFormatter.digitsOnly,
-                                                          LengthLimitingTextInputFormatter(10),
-                                                        ]
-                                                      : [],
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: AppColors.darkText),
-                                                  decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintText: _selectedMode == 'phone'
-                                                        ? '(99) 999 99 99'
-                                                        : 'example@email.com',
-                                                    hintStyle: GoogleFonts.poppins(
-                                                        color: AppColors.greyText
-                                                            .withOpacity(0.5),
-                                                        fontSize: 15),
-                                                    contentPadding:
-                                                        const EdgeInsets.symmetric(
-                                                            vertical: 18),
-                                                  ),
-                                                  onChanged: (_) => setState(() {}),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.04),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 4),
                                                 ),
-                                              ),
-                                              if (_inputController.text.isNotEmpty)
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    _inputController.clear();
-                                                    setState(() {});
-                                                  },
-                                                  child: const Padding(
-                                                    padding: EdgeInsets.only(right: 12),
-                                                    child: Icon(Icons.cancel_rounded,
-                                                        color: AppColors.greyText,
-                                                        size: 20),
-                                                  ),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-                                        const SizedBox(height: 32),
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: ElevatedButton(
-                                            onPressed: _isLoading ? null : _submit,
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: AppColors.accent,
-                                              foregroundColor: AppColors.darkText,
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 18),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(14)),
-                                              elevation: 4,
-                                              shadowColor:
-                                                  AppColors.accent.withOpacity(0.35),
+                                              ],
                                             ),
-                                            child: _isLoading
-                                                ? const SizedBox(
-                                                    width: 22,
-                                                    height: 22,
-                                                    child: CircularProgressIndicator(
-                                                      strokeWidth: 2.5,
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation<Color>(
-                                                              AppColors.darkText),
-                                                    ))
-                                                : Text(
-                                                    _selectedMode == 'phone'
-                                                        ? 'Send Verification Code'
-                                                        : 'Continue with Email',
+                                            child: Row(
+                                              children: [
+                                                const SizedBox(width: 16),
+                                                Icon(
+                                                  _selectedMode == 'phone'
+                                                      ? Icons.phone_outlined
+                                                      : Icons.email_outlined,
+                                                  color: AppColors.primary,
+                                                  size: 22,
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Container(
+                                                    width: 1,
+                                                    height: 24,
+                                                    color:
+                                                        AppColors.inputBorder),
+                                                const SizedBox(width: 12),
+                                                Expanded(
+                                                  child: TextField(
+                                                    key: ValueKey(_selectedMode),
+                                                    controller: _inputController,
+                                                    focusNode: _inputFocus,
+                                                    keyboardType:
+                                                        _selectedMode == 'phone'
+                                                            ? TextInputType
+                                                                .number
+                                                            : TextInputType
+                                                                .emailAddress,
+                                                    inputFormatters:
+                                                        _selectedMode == 'phone'
+                                                            ? [
+                                                                FilteringTextInputFormatter
+                                                                    .digitsOnly,
+                                                                LengthLimitingTextInputFormatter(
+                                                                    10),
+                                                              ]
+                                                            : [],
                                                     style: GoogleFonts.poppins(
                                                         fontSize: 16,
-                                                        fontWeight: FontWeight.w700),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            AppColors.darkText),
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      hintText:
+                                                          _selectedMode ==
+                                                                  'phone'
+                                                              ? '(99) 999 99 99'
+                                                              : 'example@email.com',
+                                                      hintStyle:
+                                                          GoogleFonts.poppins(
+                                                              color: AppColors
+                                                                  .greyText
+                                                                  .withOpacity(
+                                                                      0.5),
+                                                              fontSize: 15),
+                                                      contentPadding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                                  vertical: 18),
+                                                    ),
+                                                    onChanged: (_) =>
+                                                        setState(() {}),
                                                   ),
+                                                ),
+                                                if (_inputController
+                                                    .text.isNotEmpty)
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      _inputController.clear();
+                                                      setState(() {});
+                                                    },
+                                                    child: const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          right: 12),
+                                                      child: Icon(
+                                                          Icons.cancel_rounded,
+                                                          color:
+                                                              AppColors.greyText,
+                                                          size: 20),
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 32),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: ElevatedButton(
+                                              onPressed:
+                                                  _isLoading ? null : _submit,
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.accent,
+                                                foregroundColor:
+                                                    AppColors.darkText,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 18),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            14)),
+                                                elevation: 4,
+                                                shadowColor: AppColors.accent
+                                                    .withOpacity(0.35),
+                                              ),
+                                             child: _isLoading
+    ? const SizedBox(
+        width: 22,
+        height: 22,
+        child: CircularProgressIndicator(
+          strokeWidth: 2.5,
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.darkText),
+        ),
+      )
+                                                  : Text(
+                                                      _selectedMode == 'phone'
+                                                          ? 'Send Verification Code'
+                                                          : 'Continue with Email',
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                          const SizedBox(height: 28),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                      height: 1,
+                                      color: AppColors.inputBorder)),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14),
+                                child: Text(
+                                  'Or continue with',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    color:
+                                        AppColors.greyText.withOpacity(0.6),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                  child: Container(
+                                      height: 1,
+                                      color: AppColors.inputBorder)),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _SocialButton(
+                                bgColor: const Color(0xFF1877F2),
+                                faIcon: FontAwesomeIcons.facebookF,
+                                label: 'Facebook',
+                                onTap: () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const DashboardScreen(
+                                      loginMode: 'social',
+                                      loginValue: 'facebook',
                                     ),
                                   ),
                                 ),
-                        ),
-                        const SizedBox(height: 28),
-
-                        // ── OR Divider ──────────────────────────
-                        Row(
-                          children: [
-                            Expanded(child: Container(height: 1, color: AppColors.inputBorder)),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 14),
-                              child: Text(
-                                'Or continue with',
+                              ),
+                              const SizedBox(width: 20),
+                              _SocialButton(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFF58529),
+                                    Color(0xFFDD2A7B),
+                                    Color(0xFF8134AF),
+                                    Color(0xFF515BD4),
+                                  ],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                ),
+                                faIcon: FontAwesomeIcons.instagram,
+                                label: 'Instagram',
+                                onTap: () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const DashboardScreen(
+                                      loginMode: 'social',
+                                      loginValue: 'instagram',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              _SocialButton(
+                                bgColor: const Color(0xFFEA4335),
+                                faIcon: FontAwesomeIcons.google,
+                                label: 'Gmail',
+                                onTap: () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const DashboardScreen(
+                                      loginMode: 'social',
+                                      loginValue: 'gmail',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 28),
+                          Center(
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
                                 style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  color: AppColors.greyText.withOpacity(0.6),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            Expanded(child: Container(height: 1, color: AppColors.inputBorder)),
-                          ],
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // ── Social Buttons ──────────────────────
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _SocialButton(
-                              bgColor: const Color(0xFF1877F2),
-                              faIcon: FontAwesomeIcons.facebookF,
-                              label: 'Facebook',
-                              onTap: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const DashboardScreen(
-                                    loginMode: 'social',
-                                    loginValue: 'facebook',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            _SocialButton(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color(0xFFF58529),
-                                  Color(0xFFDD2A7B),
-                                  Color(0xFF8134AF),
-                                  Color(0xFF515BD4),
+                                    fontSize: 12,
+                                    color:
+                                        AppColors.greyText.withOpacity(0.7)),
+                                children: const [
+                                  TextSpan(
+                                      text: 'By continuing, you agree to our '),
+                                  TextSpan(
+                                      text: 'Terms of Service',
+                                      style: TextStyle(
+                                          color: AppColors.primary,
+                                          fontWeight: FontWeight.w600)),
+                                  TextSpan(text: ' & '),
+                                  TextSpan(
+                                      text: 'Privacy Policy',
+                                      style: TextStyle(
+                                          color: AppColors.primary,
+                                          fontWeight: FontWeight.w600)),
                                 ],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
                               ),
-                              faIcon: FontAwesomeIcons.instagram,
-                              label: 'Instagram',
-                              onTap: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const DashboardScreen(
-                                    loginMode: 'social',
-                                    loginValue: 'instagram',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            _SocialButton(
-                              bgColor: const Color(0xFFEA4335),
-                              faIcon: FontAwesomeIcons.google,
-                              label: 'Gmail',
-                              onTap: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const DashboardScreen(
-                                    loginMode: 'social',
-                                    loginValue: 'gmail',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 28),
-
-                        Center(
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  color: AppColors.greyText.withOpacity(0.7)),
-                              children: const [
-                                TextSpan(text: 'By continuing, you agree to our '),
-                                TextSpan(
-                                    text: 'Terms of Service',
-                                    style: TextStyle(
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.w600)),
-                                TextSpan(text: ' & '),
-                                TextSpan(
-                                    text: 'Privacy Policy',
-                                    style: TextStyle(
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.w600)),
-                              ],
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 32),
-                      ],
+                          const SizedBox(height: 32),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
