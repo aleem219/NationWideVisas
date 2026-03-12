@@ -126,36 +126,36 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Future<void> _clearData() async {
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.remove(_keyName);
-  await prefs.remove(_keyEmail);
-  await prefs.remove(_keyPhone);
-  await prefs.remove(_keyFilePath);
-  await prefs.remove(_keyFileName);
-  await prefs.remove(_keySubmitted);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyName);
+    await prefs.remove(_keyEmail);
+    await prefs.remove(_keyPhone);
+    await prefs.remove(_keyFilePath);
+    await prefs.remove(_keyFileName);
+    await prefs.remove(_keySubmitted);
 
-  setState(() {
-    _nameController.clear();
-    _emailController.clear();
-    _phoneController.clear();
-    _uploadedFile = null;
-    _uploadedFileName = null;
-    _isDataSaved = false;
-  });
+    setState(() {
+      _nameController.clear();
+      _emailController.clear();
+      _phoneController.clear();
+      _uploadedFile = null;
+      _uploadedFileName = null;
+      _isDataSaved = false;
+    });
 
-  if (mounted) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text("Data is removed"),
-        backgroundColor: const Color(0xFFD32F2F),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text("Data is removed"),
+          backgroundColor: const Color(0xFFD32F2F),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
 
   Future<void> _pickFile() async {
     final result = await FilePicker.platform.pickFiles(
@@ -172,15 +172,15 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   void _removeFile() async {
-  setState(() {
-    _uploadedFile = null;
-    _uploadedFileName = null;
-  });
+    setState(() {
+      _uploadedFile = null;
+      _uploadedFileName = null;
+    });
 
-  final prefs = await SharedPreferences.getInstance();
-  await prefs.remove(_keyFilePath);
-  await prefs.remove(_keyFileName);
-}
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyFilePath);
+    await prefs.remove(_keyFileName);
+  }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
@@ -281,162 +281,213 @@ class _DashboardScreenState extends State<DashboardScreen>
 
                             const SizedBox(height: 20),
 
+                            // ── Name: alphabets & spaces only ──
                             _buildTextField(
                               controller: _nameController,
                               label: 'Name',
                               icon: Icons.person_outline,
-                              validator: (v) =>
-                                  v!.isEmpty ? 'Enter name' : null,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[a-zA-Z\s]'),
+                                ),
+                              ],
+                              validator: (v) {
+                                if (v == null || v.trim().isEmpty) {
+                                  return 'Enter name';
+                                }
+                                if (!RegExp(r'^[a-zA-Z\s]+$')
+                                    .hasMatch(v.trim())) {
+                                  return 'Name must contain alphabets only';
+                                }
+                                return null;
+                              },
                             ),
 
                             const SizedBox(height: 16),
 
+                            // ── Email: standard regex ──
                             _buildTextField(
                               controller: _emailController,
                               label: 'Email',
                               icon: Icons.email_outlined,
-                              validator: (v) =>
-                                  v!.isEmpty ? 'Enter email' : null,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (v) {
+                                if (v == null || v.trim().isEmpty) {
+                                  return 'Enter email';
+                                }
+                                if (!RegExp(
+                                  r'^[\w.+\-]+@[a-zA-Z\d\-]+\.[a-zA-Z]{2,}$',
+                                ).hasMatch(v.trim())) {
+                                  return 'Enter a valid email address';
+                                }
+                                return null;
+                              },
                             ),
 
                             const SizedBox(height: 16),
 
+                            // ── Phone: digits only, max 10 ──
                             _buildTextField(
                               controller: _phoneController,
                               label: 'Phone',
                               icon: Icons.phone_outlined,
-                              validator: (v) =>
-                                  v!.isEmpty ? 'Enter phone' : null,
+                              keyboardType: TextInputType.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10),
+                              ],
+                              validator: (v) {
+                                if (v == null || v.trim().isEmpty) {
+                                  return 'Enter phone number';
+                                }
+                                if (!RegExp(r'^\d{10}$').hasMatch(v.trim())) {
+                                  return 'Phone number must be exactly 10 digits';
+                                }
+                                if (!RegExp(r'^[6-9]\d{9}$').hasMatch(v.trim())) {
+                                  return 'Enter a valid phone number';
+                                }
+                                return null;
+                              },
                             ),
 
                             const SizedBox(height: 24),
 
                             OutlinedButton.icon(
-  onPressed: _pickFile,
-  icon: const Icon(
-    Icons.upload_file_rounded,
-    size: 20,
-  ),
-  label: Text(
-    _uploadedFile == null ? 'Upload Document' : 'Change File',
-  ),
-  style: OutlinedButton.styleFrom(
-    foregroundColor: const Color(0xFFD32F2F),
-    side: const BorderSide(
-      color: Color(0xFFD32F2F),
-      width: 1.5,
-    ),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
-    padding: const EdgeInsets.symmetric(vertical: 14),
-  ),
-),
+                              onPressed: _pickFile,
+                              icon: const Icon(
+                                Icons.upload_file_rounded,
+                                size: 20,
+                              ),
+                              label: Text(
+                                _uploadedFile == null
+                                    ? 'Upload Document'
+                                    : 'Change File',
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: const Color(0xFFD32F2F),
+                                side: const BorderSide(
+                                  color: Color(0xFFD32F2F),
+                                  width: 1.5,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                              ),
+                            ),
 
-if (_uploadedFile != null) ...[
-  const SizedBox(height: 16),
+                            if (_uploadedFile != null) ...[
+                              const SizedBox(height: 16),
 
-  GestureDetector(
-    onTap: () {
-      final ext =
-          _uploadedFileName?.split('.').last.toLowerCase() ?? '';
+                              GestureDetector(
+                                onTap: () {
+                                  final ext =
+                                      _uploadedFileName
+                                              ?.split('.')
+                                              .last
+                                              .toLowerCase() ??
+                                          '';
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => FileViewerScreen(
-            file: _uploadedFile!,
-            fileName: _uploadedFileName ?? 'Document',
-            fileExt: ext,
-          ),
-        ),
-      );
-    },
-    child: Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF3F3),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFFFCDD2)),
-      ),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 52,
-            decoration: BoxDecoration(
-              color: const Color(0xFFD32F2F),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: Text(
-                (_uploadedFileName
-                        ?.split('.')
-                        .last
-                        .toUpperCase() ??
-                    'FILE'),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-          ),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => FileViewerScreen(
+                                        file: _uploadedFile!,
+                                        fileName:
+                                            _uploadedFileName ?? 'Document',
+                                        fileExt: ext,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFF3F3),
+                                    borderRadius: BorderRadius.circular(14),
+                                    border: Border.all(
+                                        color: const Color(0xFFFFCDD2)),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: 44,
+                                        height: 52,
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFD32F2F),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            (_uploadedFileName
+                                                    ?.split('.')
+                                                    .last
+                                                    .toUpperCase() ??
+                                                'FILE'),
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
 
-          const SizedBox(width: 12),
+                                      const SizedBox(width: 12),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _uploadedFileName ?? 'Document',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                const Text(
-                  'Tap to preview',
-                  style: TextStyle(
-                    color: Color(0xFFD32F2F),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              _uploadedFileName ?? 'Document',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            const Text(
+                                              'Tap to preview',
+                                              style: TextStyle(
+                                                color: Color(0xFFD32F2F),
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
 
-          const Icon(
-            Icons.visibility_outlined,
-            color: Color(0xFFD32F2F),
-            size: 18,
-          ),
+                                      const Icon(
+                                        Icons.visibility_outlined,
+                                        color: Color(0xFFD32F2F),
+                                        size: 18,
+                                      ),
 
-          const SizedBox(width: 4),
+                                      const SizedBox(width: 4),
 
-          IconButton(
-            icon: const Icon(
-              Icons.close_rounded,
-              color: Color(0xFF9E9E9E),
-              size: 20,
-            ),
-            onPressed: _removeFile,
-          ),
-        ],
-      ),
-    ),
-  ),
-],
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.close_rounded,
+                                          color: Color(0xFF9E9E9E),
+                                          size: 20,
+                                        ),
+                                        onPressed: _removeFile,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
 
                             if (_isDataSaved)
                               Align(
@@ -481,11 +532,15 @@ if (_uploadedFile != null) ...[
     required TextEditingController controller,
     required String label,
     required IconData icon,
+    TextInputType? keyboardType,
+    List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
       controller: controller,
       validator: validator,
+      keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon, color: const Color(0xFFD32F2F)),
